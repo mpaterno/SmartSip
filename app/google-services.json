@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1024939564315",
+    "firebase_url": "https://smartsip-h2o.firebaseio.com",
+    "project_id": "smartsip-h2o",
+    "storage_bucket": "smartsip-h2o.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1024939564315:android:b1acd12e788e122b",
+        "android_client_info": {
+          "package_name": "com.hacksd.h2o.smartsip"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1024939564315-0o4dvj1agg7nfv8vjnqd7nrhf9g9l2q2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7_dUk9Lerc6E1FblgNzk5Si45QdG5mac"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
