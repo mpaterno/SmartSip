@@ -20,8 +20,8 @@ public class RegisterActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     EditText userEmail;
     EditText userPassword;
-    EditText userName;
-    EditText WbName;
+    //EditText userName;
+    //EditText WbName;
     Button regButton;
     Button loginButton;
     private FirebaseFirestore mFirestore;
@@ -40,22 +40,25 @@ public class RegisterActivity extends AppCompatActivity {
         //
         userEmail = findViewById(R.id.reg_email);
         userPassword = findViewById(R.id.reg_password);
-        WbName = findViewById(R.id.reg_wb_name);
+
+
+        //WbName = findViewById(R.id.reg_wb_name);
         loginButton = findViewById(R.id.login_button);
         regButton = findViewById(R.id.reg_button);
-        userName = findViewById(R.id.reg_name);
+        //userName = findViewById(R.id.reg_name);
+
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signIn(userEmail.getText().toString(), userPassword.getText().toString(), userName.getText().toString());
+                signIn(userEmail.getText().toString(), userPassword.getText().toString());//, userName.getText().toString());
             }
         });
 
         regButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createAccount(userEmail.getText().toString(), userPassword.getText().toString(),userName.getText().toString());
+                createAccount(userEmail.getText().toString(), userPassword.getText().toString());//,userName.getText().toString(), WbName.getText().toString());
             }
         });
 
@@ -67,7 +70,7 @@ public class RegisterActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
     }
 
-    public void signIn(String email, String password,String userName )
+    public void signIn(String email, String password)//,String userName, String wbName )
     {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -76,8 +79,8 @@ public class RegisterActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
-                            User currentUser = new User(mFirestore);
-                            //User.create(userName);
+
+                            updateUI();
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(RegisterActivity.this, "Authentication failed.",
@@ -89,7 +92,7 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
-    public void createAccount(String email, String password, String userName){
+    public void createAccount(String email, String password){//}, String userName){
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -105,5 +108,11 @@ public class RegisterActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    public void updateUI()
+    {
+        User currentUser = new User(mFirestore);
+        currentUser.create("Alison","HydoPal");//, 1,1,1,1,1,1,1,1,1,1);
     }
 }
