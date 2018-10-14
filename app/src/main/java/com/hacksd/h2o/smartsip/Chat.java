@@ -62,7 +62,7 @@ public class Chat extends AppCompatActivity implements Bluetooth.CommunicationCa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.bluetooth_main);
 
         text = (TextView) findViewById(R.id.text);
         message = (EditText) findViewById(R.id.message);
@@ -72,8 +72,8 @@ public class Chat extends AppCompatActivity implements Bluetooth.CommunicationCa
         volumeText = (TextView) findViewById(R.id.volume_text);
         tempText = findViewById(R.id.temp_Text);
 
-        text.setMovementMethod(new ScrollingMovementMethod()); // Allows you to scroll.
-        send.setEnabled(false);
+        //text.setMovementMethod(new ScrollingMovementMethod()); // Allows you to scroll.
+      //  send.setEnabled(false);
 
         b = new Bluetooth(this);
         b.enableBluetooth();
@@ -103,8 +103,8 @@ public class Chat extends AppCompatActivity implements Bluetooth.CommunicationCa
 
 
         //From home activity
-        //mFireStore = FirebaseFirestore.getInstance();
-/*
+      //  mFireStore = FirebaseFirestore.getInstance();
+
         docPath = getIntent().getExtras().getString("path");
         Log.d("Home", "BEEEEEEEEEEEEEEEEEPPPPPPPPPPPPPPP!!!!!! " + docPath);
         waterLeft = (TextView) findViewById(R.id.waterLeft_text);
@@ -113,22 +113,22 @@ public class Chat extends AppCompatActivity implements Bluetooth.CommunicationCa
         Log.d("Home", "BEEEEEEEEEEEEEEEEEPPPPPPPPPPPPPPP!!!!!! " + waterName);
         nickName = (TextView) findViewById(R.id.w_nickname_text);
         nickName.setText(waterName);
-        */
+
 /*
         timeWaterText = findViewById(R.id.t_water_text);
         recAmount = findViewById(R.id.rec_water_text);
         cups = findViewById(R.id.cups_water);
         cupButton = findViewById(R.id.add_cup_button);
 
+        getConsumedWater();
         cupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 UpdateWaterIntake(1);
             }
         });
-        */
 
-
+*/
     }
 
     @Override
@@ -204,11 +204,11 @@ public class Chat extends AppCompatActivity implements Bluetooth.CommunicationCa
                     }
 
                 }
-                b.send("String.\n");
+                //b.send("String.\n");
 
                 //b.send("string send");
                 //text.append(s + "\n");
-                scrollView.fullScroll(View.FOCUS_DOWN);
+ //               scrollView.fullScroll(View.FOCUS_DOWN);
             }
         });
     }
