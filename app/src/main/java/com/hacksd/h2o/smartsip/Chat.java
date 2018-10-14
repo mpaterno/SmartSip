@@ -30,6 +30,9 @@ public class Chat extends AppCompatActivity implements Bluetooth.CommunicationCa
     private Button send;
     private TextView text;
     private ScrollView scrollView;
+    TextView volumeText;
+    TextView tempText;
+    TextView nickName;
     private boolean registered=false;
 
     public String waterVolume = "";
@@ -38,12 +41,14 @@ public class Chat extends AppCompatActivity implements Bluetooth.CommunicationCa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.bluetooth_main);
 
         text = (TextView)findViewById(R.id.text);
         message = (EditText)findViewById(R.id.message);
         send = (Button)findViewById(R.id.send);
         scrollView = (ScrollView) findViewById(R.id.scrollView);
+        volumeText = (TextView) findViewById(R.id.volume_text);
+        tempText = findViewById(R.id.temp_Text);
 
         text.setMovementMethod(new ScrollingMovementMethod()); // Allows you to scroll.
         send.setEnabled(false);
@@ -72,6 +77,8 @@ public class Chat extends AppCompatActivity implements Bluetooth.CommunicationCa
         IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
         registerReceiver(mReceiver, filter);
         registered=true;
+
+
     }
 
     @Override
@@ -131,18 +138,25 @@ public class Chat extends AppCompatActivity implements Bluetooth.CommunicationCa
                         if ((s.charAt(7)) == 't') {
                             waterTemp = getValueFromTerminal(sLength, s);
                             text.append("Temperature Variable is: " + waterTemp + "\n");
+                            tempText.setText("TEMP: " + waterTemp);
+                            waterTemp = "";
                         }
                         else if ((s.charAt(7)) == 'd') {
                             waterVolume = getValueFromTerminal(sLength, s);
                             text.append("Volume Variable is: " + waterVolume + "\n");
+                            volumeText.setText("VOLUME: " + waterVolume);
+                            waterVolume = "";
+
                         }
                         // Extract temperature string here.
-                        waterTemp = ""; // Clear string.
+                         // Clear string.
                     }
 
                 }
-             //   b.send("string send");
-                // text.append(s + "\n");
+                b.send("String.\n");
+
+              //b.send("string send");
+              //   text.append(s + "\n");
                 scrollView.fullScroll(View.FOCUS_DOWN);
             }
         });
@@ -161,13 +175,10 @@ public class Chat extends AppCompatActivity implements Bluetooth.CommunicationCa
         return returnValue;
     }
 
-    // Input age, height, weight, exerRating
-    // Return cups of water to drink for the day!
-    public double recWaterIntake(int age, int height, int weight, int exerRating) {
-        double bmi = (weight / (height * height));
-        double recWaterL = (bmi * 0.062) + (exerRating / 3) + (age / 100);
-        return (recWaterL * 4.22675); // Return cups of water
-    }
+//    @Override
+//    public void myOutFile() {
+//
+//    }
 
 
     @Override

@@ -59,30 +59,44 @@
 
     <TextView
         android:id="@+id/volume_text"
-        android:layout_width="212dp"
-        android:layout_height="wrap_content"
+        android:layout_width="135dp"
+        android:layout_height="56dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="178dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="383dp"
+        android:layout_marginStart="209dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="404dp"
         android:text="Volume" />
 
     <TextView
         android:id="@+id/temp_Text"
-        android:layout_width="212dp"
-        android:layout_height="wrap_content"
+        android:layout_width="108dp"
+        android:layout_height="72dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="23dp"
-        android:layout_marginTop="33dp"
-        android:layout_marginEnd="197dp"
-        android:layout_marginBottom="400dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="31dp"
+        android:layout_marginEnd="242dp"
+        android:layout_marginBottom="424dp"
         android:text="Temperature" />
+
+    <TextView
+        android:id="@+id/w_nickname_text"
+        android:layout_width="172dp"
+        android:layout_height="67dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="49dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="147dp"
+        android:layout_marginBottom="428dp"
+        android:text="NickNAme" />
 
 </RelativeLayout>
