@@ -85,7 +85,7 @@ public class Chat extends AppCompatActivity implements Bluetooth.CommunicationCa
 
         Display(" Connecting...");
         b.connectToDevice(b.getPairedDevices().get(pos));
-
+/*
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,15 +96,15 @@ public class Chat extends AppCompatActivity implements Bluetooth.CommunicationCa
             }
         });
 
-
+*/
         IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
         registerReceiver(mReceiver, filter);
         registered = true;
 
 
         //From home activity
-        mFireStore = FirebaseFirestore.getInstance();
-
+        //mFireStore = FirebaseFirestore.getInstance();
+/*
         docPath = getIntent().getExtras().getString("path");
         Log.d("Home", "BEEEEEEEEEEEEEEEEEPPPPPPPPPPPPPPP!!!!!! " + docPath);
         waterLeft = (TextView) findViewById(R.id.waterLeft_text);
@@ -113,7 +113,8 @@ public class Chat extends AppCompatActivity implements Bluetooth.CommunicationCa
         Log.d("Home", "BEEEEEEEEEEEEEEEEEPPPPPPPPPPPPPPP!!!!!! " + waterName);
         nickName = (TextView) findViewById(R.id.w_nickname_text);
         nickName.setText(waterName);
-
+        */
+/*
         timeWaterText = findViewById(R.id.t_water_text);
         recAmount = findViewById(R.id.rec_water_text);
         cups = findViewById(R.id.cups_water);
@@ -125,6 +126,7 @@ public class Chat extends AppCompatActivity implements Bluetooth.CommunicationCa
                 UpdateWaterIntake(1);
             }
         });
+        */
 
 
     }
@@ -186,12 +188,13 @@ public class Chat extends AppCompatActivity implements Bluetooth.CommunicationCa
                         if ((s.charAt(7)) == 't') {
                             waterTemp = getValueFromTerminal(sLength, s);
                             text.append("Temperature Variable is: " + waterTemp + "\n");
-                            tempText.setText("TEMP: " + waterTemp + " F");
+                            tempText.setText(waterTemp + " F");
                             waterTemp = "";
                         } else if ((s.charAt(7)) == 'd') {
                             waterVolume = getValueFromTerminal(sLength, s);
                             text.append("Volume Variable is: " + waterVolume + "\n");
-                            volumeText.setText("VOLUME: " + waterVolume + " fld.oz");
+                            volumeText.setText(waterVolume + " fld.oz");
+                            //howFull()
                             //checkEmptyCup();
                             waterVolume = "";
 
@@ -204,7 +207,7 @@ public class Chat extends AppCompatActivity implements Bluetooth.CommunicationCa
                 b.send("String.\n");
 
                 //b.send("string send");
-                //   text.append(s + "\n");
+                //text.append(s + "\n");
                 scrollView.fullScroll(View.FOCUS_DOWN);
             }
         });
@@ -323,8 +326,7 @@ public class Chat extends AppCompatActivity implements Bluetooth.CommunicationCa
         });
 
         waterComplete = Integer.parseInt(waterLeft.getText().toString());
-        cups.setText("You need to drink " + ((Integer.parseInt(recAmount.getText().toString())) - waterComplete) + " " +
-                "more cups of water");
+        cups.setText(((Integer.parseInt(recAmount.getText().toString())) - waterComplete));
 
     }
 
@@ -333,8 +335,7 @@ public class Chat extends AppCompatActivity implements Bluetooth.CommunicationCa
         waterComplete +=  numCups;
         waterLeft.setText(waterComplete);
         timeWater = (int) date.getTime();
-        cups.setText("You need to drink " + ((Integer.parseInt(recAmount.getText().toString())) - waterComplete) + " " +
-                "more cups of water");
+        cups.setText(((Integer.parseInt(recAmount.getText().toString())) - waterComplete));
     }
 
     public int CheckTime(){
@@ -350,11 +351,15 @@ public class Chat extends AppCompatActivity implements Bluetooth.CommunicationCa
       {
           return 100;
       }
-      else if ( v >= 8 && v < 13)
+      else if( v >= 9 && v < 13 )
+      {
+          return 75;
+      }
+      else if ( v >= 5 && v < 9)
       {
           return 50;
       }
-      else if (v >= 2 && v < 8){
+      else if (v >= 2 && v < 5){
           return 25;
       }
       else return 0;
