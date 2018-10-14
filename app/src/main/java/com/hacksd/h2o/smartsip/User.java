@@ -45,15 +45,7 @@ public class User {
        personalInfo.put("weight", Integer.parseInt(weight));
        personalInfo.put("age", Integer.parseInt(age));
        personalInfo.put("intensity", intesity);
-       /*
-       waterIntake.put("urineColor", urineColor);
-       waterIntake.put("sweat", sweat);
-       waterIntake.put("activity", activity);
-       waterIntake.put("time", time);
-       waterIntake.put("intensity", intensity);
-       waterIntake.put("weather", weather);
-       waterIntake.put("temp", temp);
-
+      /*
        Map<String, Object> waterHistory = new HashMap<>();
 */
        Map<String, Object> user = new HashMap<>();
@@ -80,35 +72,7 @@ public class User {
            }
        });
    }
-       /*
-       db.collection("users").add(user)
-               .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                   @Override
-                   public void onSuccess(DocumentReference documentReference) {
-                       Log.d(TAG, "DocuentSnapshot ADDED with ID:" + documentReference.getId());
-                       myid = documentReference.getId().toString();
-                       Log.d(TAG, "               **** 7777 ****  IDDDDDDDDDDDDD:" + myid);
-                   }
-               }).addOnFailureListener(new OnFailureListener() {
-           @Override
-           public void onFailure(@NonNull Exception e) {
-               Log.w(TAG, "ERROR adding document", e);
 
-           }
-       });
-       */
-
-       /*
-       user.put("id", UUID.randomUUID());
-       user.put("history", waterHistory);
-        */
-
-
-
-   public String getMyId(){
-        Log.d(TAG, "GET MY ID GET MY ID GET MY ID GET MY ID IS CALLED AND EXECUTED MY ID: -> " + myid);
-        return myid;
-   }
 
    }
 

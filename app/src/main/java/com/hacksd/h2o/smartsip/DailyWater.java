@@ -6,48 +6,50 @@ import android.util.Log;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class DailyWater {
-    /*
-    UUID id;
-    String userEmail;
-    String userPassword;
-    WaterBottle bottle;
 
-    User(){};
-    */
     //Firebase  data base
     private final FirebaseFirestore db;
 
-    DailyWater(FirebaseFirestore database)
+    DocumentReference mDocRef;
+
+    String docPath;
+
+    DailyWater(FirebaseFirestore database, String mName)
     {
         this.db = database;
+        docPath = "waterIntake/" +mName;
     }
 
-    public void create(int dailySuggested, int consumed, int time){
+    public void create(double dailySuggested, int consumed, long time){
         Map<String,Object> water = new HashMap<>();
         water.put("dailyIntake", dailySuggested);
         water.put("consumedWater", consumed);
         water.put("timeStamp", time);
 
-        db.collection("water")
-                .add(water)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d("dailyWater", "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("dailyWater", "Error adding document", e);
-                    }
-                });
+
+        DocumentReference mDocRef = FirebaseFirestore.getInstance().document(docPath);
+
+        mDocRef = FirebaseFirestore.getInstance().document(docPath);
+
+        mDocRef.set(water).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("Demo", "Document has been saved! dailywater");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w("Demo", "Document not saved!! dailywater", e);
+            }
+        });
     }
+
 
 }

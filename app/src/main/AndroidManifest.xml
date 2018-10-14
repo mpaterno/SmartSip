@@ -19,10 +19,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".RegisterActivity" />
-        <activity
-            android:name=".healthStatsActivity"
-            android:label="@string/title_activity_health_stats"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".DemoFormActivity" />
         <activity android:name=".HomeActivity"></activity>
     </application>

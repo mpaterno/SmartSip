@@ -23,6 +23,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DemoFormActivity extends AppCompatActivity {
@@ -35,6 +36,7 @@ public class DemoFormActivity extends AppCompatActivity {
     EditText ageForm;
     SeekBar intensityForm;
     Button submitForm;
+    Date date = new Date();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,20 +71,11 @@ public class DemoFormActivity extends AppCompatActivity {
                         intensityForm.getProgress());
 
 
-                String documentPath = "users/"+ nameForm.getText().toString();
-                DocumentReference mDocRef = FirebaseFirestore.getInstance().document(documentPath);
-
-                mDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if(documentSnapshot.exists()){
-                            String waterNickName = documentSnapshot.getString("WaterName");
-                            Log.d("DEMO", "OKKKKKRRRRRRR:" + waterNickName);
-                            //Map<String,Object> mData = documentSnapshot.getData();
-                            //InspiringQuote myQuote = documentSnapshot.toObject(InspiringQuote.class); takes data and creates an object
-                        }
-                    }
-                });
+                DailyWater waterIntake = new DailyWater(mFirestore, nameForm.getText().toString());
+                double rec = recWaterIntake(Integer.parseInt(ageForm.getText().toString()),
+                        (int)(Integer.parseInt(heightForm.getText().toString()) * 2.54),
+                        Integer.parseInt(weightForm.getText().toString()), intensityForm.getProgress() );
+                waterIntake.create(rec,0,date.getTime());
 
 
                 Intent i = new Intent(DemoFormActivity.this, HomeActivity.class);
@@ -92,5 +85,14 @@ public class DemoFormActivity extends AppCompatActivity {
         });
 
 
+
+    }
+
+    // Input age, height, weight, exerRating
+    // Return cups of water to drink for the day!
+    public double recWaterIntake(int age, int height, int weight, int exerRating) {
+        double bmi = (weight / (height * height));
+        double recWaterL = (bmi * 0.062) + (exerRating / 3) + (age / 100);
+        return (recWaterL * 4.22675); // Return cups of water
     }
 }
