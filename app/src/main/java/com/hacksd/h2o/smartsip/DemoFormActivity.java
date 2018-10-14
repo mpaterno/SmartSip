@@ -1,6 +1,7 @@
 package com.hacksd.h2o.smartsip;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,8 +10,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DemoFormActivity extends AppCompatActivity {
 
@@ -43,24 +56,41 @@ public class DemoFormActivity extends AppCompatActivity {
         submitForm = (Button) findViewById(R.id.submit_form);
 
 
+
+
+
+
         submitForm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                User currentUser = new User(mFirestore);
-                currentUser.create(nameForm.getText().toString(), wbForm.getText().toString(),
-                        heightForm.getText().toString(), weightForm.getText().toString(),
-                        ageForm.getText().toString(), intensityForm.getProgress());
+                User current = new User(mFirestore);
+                current.create(nameForm.getText().toString(),wbForm.getText().toString(),
+                        heightForm.getText().toString(), weightForm.getText().toString(), ageForm.getText().toString(),
+                        intensityForm.getProgress());
 
-                /*Log.d("Demo", "NOW ID IS HERE:  ??" );
-                String id = currentUser.getMyId();
-                Log.d("Demo", "NOW ID IS HERE:      " + id);*/
+
+                String documentPath = "users/"+ nameForm.getText().toString();
+                DocumentReference mDocRef = FirebaseFirestore.getInstance().document(documentPath);
+
+                mDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if(documentSnapshot.exists()){
+                            String waterNickName = documentSnapshot.getString("WaterName");
+                            Log.d("DEMO", "OKKKKKRRRRRRR:" + waterNickName);
+                            //Map<String,Object> mData = documentSnapshot.getData();
+                            //InspiringQuote myQuote = documentSnapshot.toObject(InspiringQuote.class); takes data and creates an object
+                        }
+                    }
+                });
+
+
                 Intent i = new Intent(DemoFormActivity.this, HomeActivity.class);
-                //i.putExtra("myid",nameForm.getText().toString() );
+                i.putExtra("path", nameForm.getText().toString());
                 startActivity(i);
-                Log.d("Demo", "NOW ID IS HERE:  ??" );
-                String id = currentUser.getMyId();
-                Log.d("Demo", "NOW ID IS HERE:      " + id);
             }
         });
+
+
     }
 }

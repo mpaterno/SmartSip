@@ -6,12 +6,17 @@ import android.util.Log;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.Random;
+
+import javax.annotation.Nullable;
 
 public class User {
     public static final String TAG = "UserDoc";
@@ -57,7 +62,25 @@ public class User {
        user.put("PersonalInfo", personalInfo);
        Log.d(TAG, "name: " + userName);
 
+       String documentPath = "users/"+userName;
 
+
+
+       DocumentReference mDocRef = FirebaseFirestore.getInstance().document(documentPath);
+
+       mDocRef.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+           @Override
+           public void onSuccess(Void aVoid) {
+               Log.d("SAVEME", "Document has been saved!");
+           }
+       }).addOnFailureListener(new OnFailureListener() {
+           @Override
+           public void onFailure(@NonNull Exception e) {
+               Log.w(TAG, "Document not saved!!", e);
+           }
+       });
+   }
+       /*
        db.collection("users").add(user)
                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                    @Override
@@ -73,13 +96,14 @@ public class User {
 
            }
        });
+       */
 
        /*
        user.put("id", UUID.randomUUID());
        user.put("history", waterHistory);
         */
 
-   }
+
 
    public String getMyId(){
         Log.d(TAG, "GET MY ID GET MY ID GET MY ID GET MY ID IS CALLED AND EXECUTED MY ID: -> " + myid);
