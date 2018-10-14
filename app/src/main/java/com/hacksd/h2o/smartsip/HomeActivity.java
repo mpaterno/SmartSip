@@ -37,7 +37,6 @@ public class HomeActivity extends AppCompatActivity {
         mFireStore = FirebaseFirestore.getInstance();
 
         nickName = (TextView) findViewById(R.id.wb_nickname);
-        nheight = (TextView) findViewById(R.id.nheight);
 
         docPath = getIntent().getExtras().getString("path");
         Log.d("Home","BEEEEEEEEEEEEEEEEEPPPPPPPPPPPPPPP " + docPath);
