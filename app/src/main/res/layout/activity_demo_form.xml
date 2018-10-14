@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context=".DemoFormActivity">
+
 
 
     <LinearLayout
@@ -26,31 +28,36 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="What's your name?"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:textColorHighlight="@color/skyBlue"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/form_wb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Name your waterbottle!"
-            android:inputType="textPersonName" />
+            android:hint="Name your hydration tracking pal!"
+            android:inputType="textPersonName"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/form_height"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Height"
-            android:inputType="number" />
+            android:hint="Height (inches)"
+            android:inputType="number"
+            android:textStyle="bold"/>
 
         <EditText
             android:id="@+id/form_weight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Weight"
-            android:inputType="number" />
+            android:hint="Weight (pounds)"
+            android:inputType="number"
+            android:textStyle="bold"/>
 
         <EditText
             android:id="@+id/form_age"
@@ -58,7 +65,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Age"
-            android:inputType="number" />
+            android:inputType="number"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/textView"
@@ -72,7 +80,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:max="4"
-            android:progress="1" />
+            android:progress="1"
+            android:textStyle="bold"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -84,14 +93,16 @@
                 android:layout_width="121dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Low" />
+                android:text="Low"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/med_intensity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Medium" />
+                android:text="Medium"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/high_intensity"
@@ -99,7 +110,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text=" High    " />
+                android:text=" High    "
+                android:textStyle="bold"/>
 
         </LinearLayout>
 
@@ -115,11 +127,12 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
+        android:background="@color/skyBlue"
         android:text="Submit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.935" />
+        app:layout_constraintVertical_bias="0.827" />
 
 </android.support.constraint.ConstraintLayout>
