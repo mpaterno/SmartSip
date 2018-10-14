@@ -114,13 +114,14 @@ public class Chat extends AppCompatActivity implements Bluetooth.CommunicationCa
         nickName = (TextView) findViewById(R.id.w_nickname_text);
         nickName.setText(waterName);
 
-/*
+
         timeWaterText = findViewById(R.id.t_water_text);
         recAmount = findViewById(R.id.rec_water_text);
         cups = findViewById(R.id.cups_water);
         cupButton = findViewById(R.id.add_cup_button);
 
-        getConsumedWater();
+        //getConsumedWater();
+/*
         cupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -193,7 +194,7 @@ public class Chat extends AppCompatActivity implements Bluetooth.CommunicationCa
                         } else if ((s.charAt(7)) == 'd') {
                             waterVolume = getValueFromTerminal(sLength, s);
                             text.append("Volume Variable is: " + waterVolume + "\n");
-                            volumeText.setText(waterVolume + " fld.oz");
+                            volumeText.setText(waterVolume );
                             //howFull()
                             //checkEmptyCup();
                             waterVolume = "";
