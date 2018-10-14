@@ -6,9 +6,8 @@ public class WaterBottle {
 
     UUID id;
     String waterName;
-    //location
-    //how full
-    //other water stuff here
-    //FitnessTracker
+    int temp;
+    int howFull;
+
 
 }

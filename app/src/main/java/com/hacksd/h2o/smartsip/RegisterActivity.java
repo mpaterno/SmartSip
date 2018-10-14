@@ -1,5 +1,6 @@
 package com.hacksd.h2o.smartsip;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.time.Instant;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -52,6 +55,9 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 signIn(userEmail.getText().toString(), userPassword.getText().toString());//, userName.getText().toString());
+                //updateUI();
+                Intent i = new Intent(RegisterActivity.this, DemoFormActivity.class);
+                startActivity(i);
             }
         });
 
@@ -59,6 +65,8 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 createAccount(userEmail.getText().toString(), userPassword.getText().toString());//,userName.getText().toString(), WbName.getText().toString());
+                Intent i = new Intent(RegisterActivity.this, DemoFormActivity.class);
+                startActivity(i);
             }
         });
 
@@ -112,7 +120,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void updateUI()
     {
-        User currentUser = new User(mFirestore);
-        currentUser.create("Alison","HydoPal");//, 1,1,1,1,1,1,1,1,1,1);
+       // User currentUser = new User(mFirestore);
+       // currentUser.create("Alison");//,"HydoPal");//, 1,1,1,1,1,1,1,1,1,1);
     }
 }

@@ -26,19 +26,21 @@ public class User {
     //Firebase  data base
     private final FirebaseFirestore db;
 
+    String myid;
     User(FirebaseFirestore database)
     {
         this.db = database;
+        myid = "abc";
     }
 
-   public void create(String userName, String wbName){ //, int height, int weight, int age,
-                      //int urineColor, int sweat, int activity, int time, int intensity,
-                      //int weather, int temp ) {
-/*
-       Map<String, Object> waterIntake = new HashMap<>();
-       waterIntake.put("height", height);
-       waterIntake.put("weight", weight);
-       waterIntake.put("age", age);
+   public void create(String userName, String wbName , String height, String weight, String age, int intesity) {
+
+       Map<String, Object> personalInfo = new HashMap<>();
+       personalInfo.put("height", Integer.parseInt(height));
+       personalInfo.put("weight", Integer.parseInt(weight));
+       personalInfo.put("age", Integer.parseInt(age));
+       personalInfo.put("intensity", intesity);
+       /*
        waterIntake.put("urineColor", urineColor);
        waterIntake.put("sweat", sweat);
        waterIntake.put("activity", activity);
@@ -52,26 +54,37 @@ public class User {
        Map<String, Object> user = new HashMap<>();
        user.put("name", userName);
        user.put("WaterName", wbName);
-       /*
-       user.put("userFitness", waterIntake);
-       user.put("id", UUID.randomUUID());
-       user.put("history", waterHistory);
-        */
+       user.put("PersonalInfo", personalInfo);
+       Log.d(TAG, "name: " + userName);
+
+
        db.collection("users").add(user)
                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                    @Override
                    public void onSuccess(DocumentReference documentReference) {
-                       Log.d(TAG, "DocuentSnapshot added with ID:" + documentReference.getId());
+                       Log.d(TAG, "DocuentSnapshot ADDED with ID:" + documentReference.getId());
+                       myid = documentReference.getId().toString();
+                       Log.d(TAG, "               **** 7777 ****  IDDDDDDDDDDDDD:" + myid);
                    }
                }).addOnFailureListener(new OnFailureListener() {
            @Override
            public void onFailure(@NonNull Exception e) {
-               Log.w(TAG, "Error adding document", e);
+               Log.w(TAG, "ERROR adding document", e);
+
            }
        });
 
+       /*
+       user.put("id", UUID.randomUUID());
+       user.put("history", waterHistory);
+        */
+
    }
 
+   public String getMyId(){
+        Log.d(TAG, "GET MY ID GET MY ID GET MY ID GET MY ID IS CALLED AND EXECUTED MY ID: -> " + myid);
+        return myid;
+   }
 
-        }
+   }
 

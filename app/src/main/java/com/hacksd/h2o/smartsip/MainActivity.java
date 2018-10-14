@@ -10,6 +10,9 @@ public class MainActivity extends AppCompatActivity {
 
     Button go;
 
+    public static final String PREF_USER_FIRST_TIME = "user_first_time";
+    boolean isUserFirstTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +27,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        //isUserFirstTime = Boolean.valueOf(Utils.readSharedSetting(MainActivity.this, PREF_USER_FIRST_TIME, "true"));
+
+        //Intent introIntent = new Intent(MainActivity.this, healthStatsActivity.class);
+        //introIntent.putExtra(PREF_USER_FIRST_TIME, isUserFirstTime);
+
+        //if (isUserFirstTime)
+            //startActivity(introIntent);
     }
 
 }
