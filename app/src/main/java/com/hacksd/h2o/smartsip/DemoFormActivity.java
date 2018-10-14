@@ -85,8 +85,9 @@ public class DemoFormActivity extends AppCompatActivity {
                 });
 
 
-                Intent i = new Intent(DemoFormActivity.this, HomeActivity.class);
+                Intent i = new Intent(DemoFormActivity.this, Scan.class);
                 i.putExtra("path", nameForm.getText().toString());
+                i.putExtra("NickName", wbForm.getText().toString());
                 startActivity(i);
             }
         });

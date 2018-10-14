@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,8 +29,8 @@ public class HomeActivity extends AppCompatActivity {
 
     FirebaseFirestore mFireStore;
     TextView nickName;
-    TextView nheight;
     String docPath;
+    Button toScan;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,12 +39,22 @@ public class HomeActivity extends AppCompatActivity {
         mFireStore = FirebaseFirestore.getInstance();
 
         nickName = (TextView) findViewById(R.id.wb_nickname);
-        nheight = (TextView) findViewById(R.id.nheight);
+
 
         docPath = getIntent().getExtras().getString("path");
         Log.d("Home","BEEEEEEEEEEEEEEEEEPPPPPPPPPPPPPPP " + docPath);
 
        getUsers();
+
+       toScan = (Button) findViewById(R.id.button_scan);
+        toScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(HomeActivity.this, Select.class);
+                startActivity(i);
+            }
+        });
+
 
 
     }
