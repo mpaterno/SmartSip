@@ -87,8 +87,6 @@ public class RegisterActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
-
-                            updateUI();
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(RegisterActivity.this, "Authentication failed.",
@@ -118,9 +116,4 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
-    public void updateUI()
-    {
-       // User currentUser = new User(mFirestore);
-       // currentUser.create("Alison");//,"HydoPal");//, 1,1,1,1,1,1,1,1,1,1);
-    }
 }

@@ -78,9 +78,9 @@ public class DemoFormActivity extends AppCompatActivity {
                 waterIntake.create(rec,0,date.getTime());
 
 
-                Intent i = new Intent(DemoFormActivity.this, Scan.class);
+                Intent i = new Intent(DemoFormActivity.this, Select.class);
                 i.putExtra("path", nameForm.getText().toString());
-                i.putExtra("NickName", wbForm.getText().toString());
+                i.putExtra("nickName", wbForm.getText().toString());
                 startActivity(i);
             }
         });

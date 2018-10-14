@@ -1,5 +1,6 @@
 package com.hacksd.h2o.smartsip;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -33,11 +34,8 @@ public class DailyWater {
         water.put("consumedWater", consumed);
         water.put("timeStamp", time);
 
-
         DocumentReference mDocRef = FirebaseFirestore.getInstance().document(docPath);
-
         mDocRef = FirebaseFirestore.getInstance().document(docPath);
-
         mDocRef.set(water).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -49,7 +47,14 @@ public class DailyWater {
                 Log.w("Demo", "Document not saved!! dailywater", e);
             }
         });
+
     }
+
+
+
+
+
+
 
 
 }

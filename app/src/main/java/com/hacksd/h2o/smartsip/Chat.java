@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,6 +21,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Date;
 
 import me.aflak.bluetooth.Bluetooth;
 
@@ -32,8 +40,21 @@ public class Chat extends AppCompatActivity implements Bluetooth.CommunicationCa
     private ScrollView scrollView;
     TextView volumeText;
     TextView tempText;
+
+    FirebaseFirestore mFireStore;
     TextView nickName;
-    private boolean registered=false;
+    String docPath;
+    String waterName;
+    TextView waterLeft;
+    TextView timeWaterText;
+    int timeWater;
+    TextView recAmount;
+    int waterComplete;
+    Date date = new Date();
+    TextView cups;
+    Button cupButton;
+
+    private boolean registered = false;
 
     public String waterVolume = "";
     public String waterTemp = "";
@@ -41,12 +62,13 @@ public class Chat extends AppCompatActivity implements Bluetooth.CommunicationCa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.bluetooth_main);
+        setContentView(R.layout.activity_main);
 
-        text = (TextView)findViewById(R.id.text);
-        message = (EditText)findViewById(R.id.message);
-        send = (Button)findViewById(R.id.send);
+        text = (TextView) findViewById(R.id.text);
+        message = (EditText) findViewById(R.id.message);
+        send = (Button) findViewById(R.id.send);
         scrollView = (ScrollView) findViewById(R.id.scrollView);
+
         volumeText = (TextView) findViewById(R.id.volume_text);
         tempText = findViewById(R.id.temp_Text);
 
@@ -70,13 +92,39 @@ public class Chat extends AppCompatActivity implements Bluetooth.CommunicationCa
                 String msg = message.getText().toString();
                 message.setText("");
                 b.send(msg);
-                Display("You: "+msg);
+                Display("You: " + msg);
             }
         });
 
+
         IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
         registerReceiver(mReceiver, filter);
-        registered=true;
+        registered = true;
+
+
+        //From home activity
+        mFireStore = FirebaseFirestore.getInstance();
+
+        docPath = getIntent().getExtras().getString("path");
+        Log.d("Home", "BEEEEEEEEEEEEEEEEEPPPPPPPPPPPPPPP!!!!!! " + docPath);
+        waterLeft = (TextView) findViewById(R.id.waterLeft_text);
+
+        waterName = getIntent().getExtras().getString("nickName");
+        Log.d("Home", "BEEEEEEEEEEEEEEEEEPPPPPPPPPPPPPPP!!!!!! " + waterName);
+        nickName = (TextView) findViewById(R.id.w_nickname_text);
+        nickName.setText(waterName);
+
+        timeWaterText = findViewById(R.id.t_water_text);
+        recAmount = findViewById(R.id.rec_water_text);
+        cups = findViewById(R.id.cups_water);
+        cupButton = findViewById(R.id.add_cup_button);
+
+        cupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UpdateWaterIntake(1);
+            }
+        });
 
 
     }
@@ -84,9 +132,9 @@ public class Chat extends AppCompatActivity implements Bluetooth.CommunicationCa
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(registered) {
+        if (registered) {
             unregisterReceiver(mReceiver);
-            registered=false;
+            registered = false;
         }
     }
 
@@ -125,7 +173,7 @@ public class Chat extends AppCompatActivity implements Bluetooth.CommunicationCa
         }
     }
 
-    public void Display(final String s){
+    public void Display(final String s) {
         this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -138,25 +186,25 @@ public class Chat extends AppCompatActivity implements Bluetooth.CommunicationCa
                         if ((s.charAt(7)) == 't') {
                             waterTemp = getValueFromTerminal(sLength, s);
                             text.append("Temperature Variable is: " + waterTemp + "\n");
-                            tempText.setText("TEMP: " + waterTemp);
+                            tempText.setText("TEMP: " + waterTemp + " F");
                             waterTemp = "";
-                        }
-                        else if ((s.charAt(7)) == 'd') {
+                        } else if ((s.charAt(7)) == 'd') {
                             waterVolume = getValueFromTerminal(sLength, s);
                             text.append("Volume Variable is: " + waterVolume + "\n");
-                            volumeText.setText("VOLUME: " + waterVolume);
+                            volumeText.setText("VOLUME: " + waterVolume + " fld.oz");
+                            //checkEmptyCup();
                             waterVolume = "";
 
                         }
                         // Extract temperature string here.
-                         // Clear string.
+                        // Clear string.
                     }
 
                 }
                 b.send("String.\n");
 
-              //b.send("string send");
-              //   text.append(s + "\n");
+                //b.send("string send");
+                //   text.append(s + "\n");
                 scrollView.fullScroll(View.FOCUS_DOWN);
             }
         });
@@ -175,15 +223,10 @@ public class Chat extends AppCompatActivity implements Bluetooth.CommunicationCa
         return returnValue;
     }
 
-//    @Override
-//    public void myOutFile() {
-//
-//    }
-
 
     @Override
     public void onConnect(BluetoothDevice device) {
-        Display("Connected to "+device.getName()+" - "+device.getAddress());
+        Display("Connected to " + device.getName() + " - " + device.getAddress());
         this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -201,17 +244,17 @@ public class Chat extends AppCompatActivity implements Bluetooth.CommunicationCa
 
     @Override
     public void onMessage(String message) {
-        Display(name+": "+message);
+        Display(name + ": " + message);
     }
 
     @Override
     public void onError(String message) {
-        Display("Error: "+message);
+        Display("Error: " + message);
     }
 
     @Override
     public void onConnectError(final BluetoothDevice device, String message) {
-        Display("Error: "+message);
+        Display("Error: " + message);
         Display("Trying again in 3 sec.");
         runOnUiThread(new Runnable() {
             @Override
@@ -238,17 +281,17 @@ public class Chat extends AppCompatActivity implements Bluetooth.CommunicationCa
 
                 switch (state) {
                     case BluetoothAdapter.STATE_OFF:
-                        if(registered) {
+                        if (registered) {
                             unregisterReceiver(mReceiver);
-                            registered=false;
+                            registered = false;
                         }
                         startActivity(intent1);
                         finish();
                         break;
                     case BluetoothAdapter.STATE_TURNING_OFF:
-                        if(registered) {
+                        if (registered) {
                             unregisterReceiver(mReceiver);
-                            registered=false;
+                            registered = false;
                         }
                         startActivity(intent1);
                         finish();
@@ -257,4 +300,72 @@ public class Chat extends AppCompatActivity implements Bluetooth.CommunicationCa
             }
         }
     };
+
+    public void getConsumedWater() {
+        String documentPath = "waterIntake/" + docPath;
+        DocumentReference mDocRef = FirebaseFirestore.getInstance().document(documentPath);
+
+        mDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                    String amountWater = documentSnapshot.getString("consumedWater");
+                    Log.d("DEMO", "WATEEEEEEEEEEEEEEERRRRRR:" + amountWater);
+                    waterLeft.setText(amountWater);
+
+                    String twater = documentSnapshot.getString("time");
+                    String recwater = documentSnapshot.getString("dailyIntake");
+                    timeWaterText.setText(twater);
+                    recAmount.setText(recwater);
+
+                }
+            }
+        });
+
+        waterComplete = Integer.parseInt(waterLeft.getText().toString());
+        cups.setText("You need to drink " + ((Integer.parseInt(recAmount.getText().toString())) - waterComplete) + " " +
+                "more cups of water");
+
+    }
+
+
+    public void UpdateWaterIntake(int numCups){
+        waterComplete +=  numCups;
+        waterLeft.setText(waterComplete);
+        timeWater = (int) date.getTime();
+        cups.setText("You need to drink " + ((Integer.parseInt(recAmount.getText().toString())) - waterComplete) + " " +
+                "more cups of water");
+    }
+
+    public int CheckTime(){
+        int howLong = (int)date.getTime() - timeWater;
+        howLong = (int) ((howLong/ 1000) /60);
+        return howLong;
+    }
+
+    public int howFull(){
+      int max = 16; // oz
+      int v = Integer.parseInt( volumeText.getText().toString());
+      if (v >= 13)
+      {
+          return 100;
+      }
+      else if ( v >= 8 && v < 13)
+      {
+          return 50;
+      }
+      else if (v >= 2 && v < 8){
+          return 25;
+      }
+      else return 0;
+    };
+
+    public void checkEmptyCup(){
+        if (howFull() == 0)
+        {
+            UpdateWaterIntake(1);
+        }
+    }
+
+
 }

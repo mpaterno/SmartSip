@@ -37,12 +37,12 @@ public class HomeActivity extends AppCompatActivity {
         mFireStore = FirebaseFirestore.getInstance();
 
         nickName = (TextView) findViewById(R.id.wb_nickname);
-        nheight = (TextView) findViewById(R.id.nheight);
+        //nheight = (TextView) findViewById(R.id.nheight);
 
         docPath = getIntent().getExtras().getString("path");
         Log.d("Home","BEEEEEEEEEEEEEEEEEPPPPPPPPPPPPPPP " + docPath);
 
-       getUsers();
+       //getUsers();
 
 
     }
@@ -65,5 +65,23 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void getConsumedWater(){
+        String documentPath = "waterIntake/"+ docPath;
+        DocumentReference mDocRef = FirebaseFirestore.getInstance().document(documentPath);
+
+        mDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if(documentSnapshot.exists()){
+                    String amountWater = documentSnapshot.getString("consumedWater");
+                    Log.d("DEMO", "OKKKKKRRRRRRR:" + amountWater);
+                    nickName.setText(amountWater);
+
+                }
+            }
+        });
+
     }
 }

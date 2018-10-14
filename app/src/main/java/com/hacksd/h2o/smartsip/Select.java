@@ -32,10 +32,16 @@ public class Select extends Activity implements PullToRefresh.OnRefreshListener 
     private PullToRefresh pull_to_refresh;
     private boolean registered=false;
 
+    String docPath;
+    String nickName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.select);
+
+
+        docPath = getIntent().getExtras().getString("path");
+        nickName = getIntent().getExtras().getString("nickName");
 
         IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
         registerReceiver(mReceiver, filter);
@@ -61,6 +67,8 @@ public class Select extends Activity implements PullToRefresh.OnRefreshListener 
                     unregisterReceiver(mReceiver);
                     registered=false;
                 }
+                i.putExtra("path", docPath);
+                i.putExtra("nickName", nickName);
                 startActivity(i);
                 finish();
             }

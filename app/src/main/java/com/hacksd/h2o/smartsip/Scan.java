@@ -29,10 +29,16 @@ public class Scan extends Activity implements Bluetooth.DiscoveryCallback, Adapt
     private Button scan;
     private List<BluetoothDevice> devices;
 
+    String docPath;
+    String nickName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scan);
+
+        docPath = getIntent().getExtras().getString("path");
+        nickName = getIntent().getExtras().getString("nickName");
+
 
         listView = (ListView)findViewById(R.id.scan_list);
         state = (TextView) findViewById(R.id.scan_state);
@@ -122,6 +128,8 @@ public class Scan extends Activity implements Bluetooth.DiscoveryCallback, Adapt
         setProgressVisibility(View.INVISIBLE);
         setText("Paired!");
         Intent i = new Intent(Scan.this, Select.class);
+        i.putExtra("path", docPath);
+        i.putExtra("nickName", nickName);
         startActivity(i);
         finish();
     }
